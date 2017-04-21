@@ -1,20 +1,20 @@
 import numpy as np
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
-from time import time
+
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 
-def run(n):
+def run():
     x = tf.placeholder(tf.float32, [None, 784])
-    W = tf.Variable(tf.zeros([784, 10]))
-    # W = tf.Variable(tf.zeros([10, 784]))
+    W = tf.Variable(tf.zeros([10, 784]))
+    # W = tf.Variable(tf.zeros([784, 10]))
     b = tf.Variable(tf.zeros([10]))
-    y = tf.nn.softmax(tf.matmul(x, W) + b)
-    # y = tf.nn.softmax(tf.matmul(x, tf.transpose(W)) + b)
+    # y = tf.nn.softmax(tf.matmul(x, W) + b)
+    y = tf.nn.softmax(tf.matmul(x, tf.transpose(W)) + b)
     y_ = tf.placeholder(tf.float32, [None, 10])
     cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y), 1))
     train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy)
-    sess = tf.InteractiveSession()
+    sess = tf.InteractiveSession(config=tf.ConfigProto(log_device_placement=True))
     tf.global_variables_initializer().run()
     for _ in range(1000):
         batch_xs, batch_ys = mnist.train.next_batch(100)
@@ -23,8 +23,8 @@ def run(n):
     correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
-    print(sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels}),n)
+    print(sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels}))
 
 time1 = time()
-[run(i) for i in range(100)]
-print((time()-time1)/100)
+[run() for i in range(10)]
+print((time()-time1)/10)
