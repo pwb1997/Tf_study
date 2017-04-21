@@ -4,7 +4,7 @@ from tensorflow.examples.tutorials.mnist import input_data
 from time import time
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 
-def run():
+def run(n):
     x = tf.placeholder(tf.float32, [None, 784])
     W = tf.Variable(tf.zeros([784, 10]))
     # W = tf.Variable(tf.zeros([10, 784]))
@@ -23,8 +23,8 @@ def run():
     correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
-    sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels})
+    print(sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels}),n)
 
 time1 = time()
-[run() for i in range(100)]
+[run(i) for i in range(100)]
 print((time()-time1)/100)
