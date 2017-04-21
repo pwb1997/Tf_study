@@ -25,5 +25,5 @@ def run():
     print(sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels}))
 
 time1 = time()
-[run() for i in range(10)]
-print((time()-time1)/10)
+[run() for i in range(3)]
+print((time()-time1)/3)
