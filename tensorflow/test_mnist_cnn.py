@@ -3,6 +3,8 @@ from tensorflow.examples.tutorials.mnist import input_data
 sess = tf.InteractiveSession()
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 
+x = tf.placeholder(tf.float32, [None, 784])
+y_ = tf.placeholder(tf.float32, [None, 10])
 weight_variable = lambda shape: tf.Variable(tf.truncated_normal(shape, stddev=0.1))
 bias_variable = lambda shape: tf.Variable(tf.constant(0.1, shape=shape))
 
